@@ -50,11 +50,9 @@ jobs:
     - name: Update & install feeds
       working-directory: ./openwrt
       run: |
+        python3 -m pip install pyelftools
         python3 -c "import elftools; print(elftools.__version__)"
         sudo python3 -m pip show pyelftools
-        rm -rf ./include/u-boot.mk
-        wget -P ./include https://raw.githubusercontent.com/openwrt/openwrt/refs/heads/openwrt-24.10/include/u-boot.mk
-        
         ./scripts/feeds update -a
         ./scripts/feeds install -a
 
