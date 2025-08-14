@@ -37,7 +37,6 @@ jobs:
         sudo -E apt-get -qq install build-essential clang flex g++ gawk gcc-multilib gettext \
         git libncurses5-dev libssl-dev python3-distutils rsync unzip zlib1g-dev swig libpython3-dev aria2 jq subversion qemu-utils ccache rename libelf-dev
         sudo pip3 install pyelftools
-        sudo python3 -m pip show pyelftools
         sudo -E apt-get -qq purge azure-cli ghc* zulu* hhvm llvm* firefox powershell openjdk* dotnet* google* mysql* php* android* rename speedtest-cli
         sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         sudo -E apt-get -qq autoremove --purge
@@ -51,6 +50,10 @@ jobs:
     - name: Update & install feeds
       working-directory: ./openwrt
       run: |
+        sudo python3 -m pip show pyelftools
+        rm -rf ./include/u-boot.mk
+        wget -P ./include https://raw.githubusercontent.com/openwrt/openwrt/refs/heads/openwrt-24.10/include/u-boot.mk
+        
         ./scripts/feeds update -a
         ./scripts/feeds install -a
 
